@@ -43,7 +43,7 @@ git branch -D pr<PR>
 
 ## 3. Report, then ask
 
-Report in Czech: the findings with `file:line`, then what you checked and found OK, then CI and merge state. End with one question. Offer the options that fit:
+Report in the language the user chats in: the findings with `file:line`, then what you checked and found OK, then CI and merge state. End with one question. Offer the options that fit:
 
 - no findings: approve, or approve with "LGTM"
 - non-blocking nits only: approve with the nits as a note
@@ -80,7 +80,7 @@ Reply with the URL of the posted review.
 
 ## 5. After the author merges
 
-When the user says it is merged, confirm it (`gh pr view <PR> --json state,mergedAt`), then `git checkout main && git pull --ff-only`. Offer the next step, for example the user's next open issue from `gh issue list --assignee dsejna`.
+When the user says it is merged, confirm it (`gh pr view <PR> --json state,mergedAt`), then `git checkout main && git pull --ff-only`. Offer the next step, for example the user's next open issue from `gh issue list --assignee @me`.
 
 ## Common mistakes
 
@@ -89,5 +89,5 @@ When the user says it is merged, confirm it (`gh pr view <PR> --json state,merge
 | Reviewing issue #N as if it were a PR                     | Resolve it first (step 1)                                                  |
 | Posting or approving without asking                       | Always ask first. "Jako komentář" means a COMMENT review, not an approval. |
 | A suggestion that covers one line of a multi-line problem | Use `start_line`, and replace the whole broken range                       |
-| Writing the GitHub comment in Czech                       | Chat is in Czech, GitHub text is in English                                |
+| Writing the GitHub comment in the chat language           | GitHub text is always in English                                           |
 | Merging the PR                                            | Never merge. The author merges.                                            |
