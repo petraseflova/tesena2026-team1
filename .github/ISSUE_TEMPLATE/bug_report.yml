@@ -1,0 +1,74 @@
+name: Bug report
+description: A failing or flaky test, a bug in the test framework, or unexpected Todoist API behaviour
+title: '[Bug]: '
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository is public. Never paste the `TODOIST_API_TOKEN` or unredacted request headers.
+
+  - type: checkboxes
+    id: existing
+    attributes:
+      label: Existing issues
+      options:
+        - label: I searched the existing issues, including the open `smoke-failure` issue
+          required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Test failure
+        - Flaky test
+        - Test framework (clients, fixtures, reporters, utils)
+        - CI workflow
+        - Todoist API behaviour
+    validations:
+      required: true
+
+  - type: input
+    id: test
+    attributes:
+      label: Affected test or file
+      placeholder: tests/tasks/create-task.spec.ts › creates a task with a due date
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: Include the error message and, for API bugs, the request and response (without the token).
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. TEST_ENV=prod npx playwright test tests/tasks --grep "..."
+        2. ...
+
+  - type: input
+    id: run
+    attributes:
+      label: CI run link
+      placeholder: https://github.com/.../actions/runs/...
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment (TEST_ENV)
+      options:
+        - prod
+        - other

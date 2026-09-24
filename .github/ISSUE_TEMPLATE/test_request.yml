@@ -1,0 +1,67 @@
+name: New test
+description: Propose new API test coverage
+title: '[Test]: '
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One scenario (or a small group of related scenarios) per issue keeps PRs small and reviewable.
+
+  - type: dropdown
+    id: resource
+    attributes:
+      label: Resource
+      options:
+        - Projects
+        - Tasks
+        - Labels
+        - Comments
+        - User
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: endpoint
+    attributes:
+      label: Endpoint
+      placeholder: POST /api/v1/tasks
+    validations:
+      required: true
+
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Scenario
+      description: Preconditions, steps and expected result.
+      placeholder: |
+        Given ...
+        When ...
+        Then ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Test type
+      options:
+        - Positive
+        - Negative (validation, auth, not found)
+        - Schema / contract
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: smoke
+    attributes:
+      label: Smoke
+      options:
+        - label: 'Tag with @smoke (runs every hour on main, keep it fast and stable)'
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Links to the API docs, test data needs, cleanup concerns.
