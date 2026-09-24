@@ -21,6 +21,7 @@ test(
 
     await test.step('Fetching the comment by its id returns the same text', async () => {
       const fetched = await api.comments.get(created.id);
+      expect(fetched).toMatchSchema(Schema.comment);
       expect(fetched.id).toBe(created.id);
       expect(fetched.content).toBe(content);
     });
