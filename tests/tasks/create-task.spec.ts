@@ -36,13 +36,13 @@ test(
     await test.step('The response contains a task id and the due date that was entered', () => {
       expect(created).toMatchSchema(Schema.task);
       expect(created.id).toBeTruthy();
-      expect(created.due?.date).toBe(dueDate);
+      expect(created).toMatchObject({ due: { date: dueDate } });
     });
 
     await test.step('Fetching the task by its id returns the same due date', async () => {
       const fetched = await api.tasks.get(created.id);
       expect(fetched.id).toBe(created.id);
-      expect(fetched.due?.date).toBe(dueDate);
+      expect(fetched).toMatchObject({ due: { date: dueDate } });
     });
   },
 );
