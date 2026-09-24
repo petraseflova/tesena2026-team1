@@ -1,12 +1,15 @@
-import type { TodoistApi } from '../../src/clients';
 import { buildTask } from '../../src/data';
-import { expect, test, type TestData } from '../../src/fixtures';
+import { expect, test, type ApiFixtures, type TestData } from '../../src/fixtures';
 
 const MALFORMED_TOKEN = 'autotest-malformed-token';
 
 /** Sends the task and, if the API accepts it after all, registers it so teardown deletes it. */
-async function sendTask(client: TodoistApi, content: string, testData: TestData): Promise<number> {
-  const response = await client.tasks.send('POST', 'tasks', { body: { content } });
+async function sendTask(
+  client: ApiFixtures['api'],
+  body: { content: string; project_id: string },
+  testData: TestData,
+): Promise<number> {
+  const response = await client.tasks.send('POST', 'tasks', { body });
   if (response.ok()) {
     const { id } = (await response.json()) as { id: string };
     testData.track('task', id);
@@ -21,15 +24,18 @@ test.describe('TC-014 With no access token and with a malformed token the reques
     async ({ api, unauthenticatedApi, testData }) => {
       const { content } = buildTask();
 
+      const project = await test.step('Create a project for the task', () =>
+        testData.createProject());
+
       const status = await test.step('Send a new task with no Authorization header', () =>
-        sendTask(unauthenticatedApi, content, testData));
+        sendTask(unauthenticatedApi, { content, project_id: project.id }, testData));
 
       await test.step('The response status is 401', () => {
         expect(status).toBe(401);
       });
 
-      await test.step('No task with that content exists on the account', async () => {
-        const tasks = await api.tasks.list();
+      await test.step('No task with that content is created in the project', async () => {
+        const tasks = await api.tasks.list({ project_id: project.id });
         expect(tasks.filter((task) => task.content === content)).toEqual([]);
       });
     },
@@ -41,15 +47,22 @@ test.describe('TC-014 With no access token and with a malformed token the reques
     async ({ api, apiWithToken, testData }) => {
       const { content } = buildTask();
 
+      const project = await test.step('Create a project for the task', () =>
+        testData.createProject());
+
       const status = await test.step('Send a new task with a malformed token', async () =>
-        sendTask(await apiWithToken(MALFORMED_TOKEN), content, testData));
+        sendTask(
+          await apiWithToken(MALFORMED_TOKEN),
+          { content, project_id: project.id },
+          testData,
+        ));
 
       await test.step('The response status is 401', () => {
         expect(status).toBe(401);
       });
 
-      await test.step('No task with that content exists on the account', async () => {
-        const tasks = await api.tasks.list();
+      await test.step('No task with that content is created in the project', async () => {
+        const tasks = await api.tasks.list({ project_id: project.id });
         expect(tasks.filter((task) => task.content === content)).toEqual([]);
       });
     },
