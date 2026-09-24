@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Todoist API reference
+    url: https://developer.todoist.com/
+    about: Check the API docs before reporting unexpected API behaviour.
+  - name: Test architecture
+    url: https://github.com/petraseflova/tesena2026-team1/blob/main/docs/test-architecture-plan.md
+    about: How clients, fixtures and test data are organised.

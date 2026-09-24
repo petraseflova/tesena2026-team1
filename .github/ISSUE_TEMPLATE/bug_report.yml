@@ -8,6 +8,14 @@ body:
       value: |
         This repository is public. Never paste the `TODOIST_API_TOKEN` or unredacted request headers.
 
+  - type: checkboxes
+    id: existing
+    attributes:
+      label: Existing issues
+      options:
+        - label: I searched the existing issues, including the open `smoke-failure` issue
+          required: true
+
   - type: dropdown
     id: area
     attributes:
