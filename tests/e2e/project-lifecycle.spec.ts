@@ -25,7 +25,8 @@ test(
       const active = await api.tasks.list({ project_id: project.id });
       const active = await api.tasks.list({ project_id: project.id });
       for (const task of active) expect(task).toMatchSchema(Schema.task);
-    });
+      expect(active.map((t) => t.id)).toEqual([third.id]);
+      for (const task of active) expect(task).toMatchSchema(Schema.task);
 
     await test.step('The two ticked off tasks are completed when fetched by id', async () => {
       for (const { id } of [first, second]) {
